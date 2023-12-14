@@ -1,7 +1,5 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const isDevelopment = process.env.NODE_ENV === 'development'
 
 module.exports = {
 	entry: './src/index.js',
@@ -10,10 +8,6 @@ module.exports = {
 			template: './src/index.html',
 			//favicon: './src/images/favicon.png',
 		}),
-		//new MiniCssExtractPlugin({
-		//	filename: isDevelopment ? '[name].css' : '[name].[hash].css',
-		//	chunkFilename: isDevelopment ? '[id].css' : '[name].[hash].css',
-		//})
 	],
 	output: {
 		filename: '[name].bundle.js',

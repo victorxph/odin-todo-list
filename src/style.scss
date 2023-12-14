@@ -1,11 +1,115 @@
-import './_config.scss'
+@import 'config';
+
+* {
+	box-sizing: border-box;
+}
 
 body {
-	background-color: #171717;
-	font-family: 'Outfit';
+	height: 100vh;
+	background-color: $c800;
+	font-family: $font;
 	color: $color;
+	margin: 0px;
+	display: grid;
+	grid-template-rows: 70px 1fr;
+	grid-template-columns: 300px 1fr;
 }
 
 nav {
-	background-color: #262626;
+	background-color: $c950;
+	padding: 20px;
+	grid-column: 1 / -1;
+
+	h1 {
+		margin: 0px;
+	}
+}
+
+aside {
+	background-color: $c900;
+	height: 100%;
+	width: 300px;
+	padding: 20px;
+
+	ul {
+		list-style: none;
+		padding: 0;
+	}
+
+	.main-todo {
+		span {
+			&:hover {
+				cursor: pointer;
+				color: #fff;
+			}
+		}
+	}
+
+	.projects li {
+		&:hover {
+			cursor: pointer;
+			color: #fff;
+		}
+	}
+}
+
+main {
+	padding: 20px;
+	display: grid;
+	grid-template-rows: repeat(auto-fit, minmax(300px, 33%));
+	gap: 20px;
+}
+
+.project-card {
+	background-color: $c900;
+	border-radius: .5em;
+	padding: 15px;
+	max-width: 20%;
+	position: relative;
+
+	&:hover {
+		cursor: pointer;
+	}
+
+	ul {
+		list-style: none;
+		padding: 0;
+		gap: 10px;
+		position: relative;
+
+		li {
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			margin-bottom: 10px;
+		}
+	}
+
+	button {
+		position: absolute;
+		right: 20px;
+		bottom: 20px;
+		border: none;
+		border-radius: 50%;
+		background-color: rgba(0, 0, 0, 0);
+		padding: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: $color;
+		font-size: 3rem;
+		text-align: center;
+
+		@keyframes rotateRight {
+			to {
+				transform: rotate(90deg);
+			}
+		}
+
+		&:hover {
+			//background-color: lighten($c900, 10%);
+			cursor: pointer;
+			animation: rotateRight .5s;
+		}
+	}
 }
