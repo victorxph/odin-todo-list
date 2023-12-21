@@ -5,7 +5,7 @@
 }
 
 body {
-	height: 100%;
+	height: 100vh;
 	background-color: $c800;
 	font-family: $font;
 	color: $color;
@@ -87,7 +87,8 @@ main {
 	background-color: $c900;
 	border-radius: .5em;
 	padding: 15px;
-	width: 320px;
+	// width: 320px;
+	height: 300px;
 	position: relative;
 
 	display: grid;
