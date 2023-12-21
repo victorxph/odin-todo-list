@@ -5,7 +5,7 @@
 }
 
 body {
-	height: 100vh;
+	height: 100%;
 	background-color: $c800;
 	font-family: $font;
 	color: $color;
@@ -28,7 +28,6 @@ nav {
 aside {
 	background-color: $c900;
 	height: 100%;
-	width: 300px;
 	padding: 20px;
 
 	display: grid;
@@ -79,29 +78,39 @@ aside {
 main {
 	padding: 20px;
 	display: grid;
-	grid-template-rows: repeat(auto-fit, minmax(300px, 33%));
 	grid-template-columns: repeat(auto-fit, 320px);
 	gap: 20px;
+	justify-content: center;
 }
 
 .project-card {
 	background-color: $c900;
 	border-radius: .5em;
 	padding: 15px;
-	// width: 320px;
+	width: 320px;
 	position: relative;
+
+	display: grid;
+	grid-template-rows: 50px 1fr 50px;
+
+	h2 {
+		margin: 0;
+	}
+
 
 	ul {
 		list-style: none;
 		padding: 0;
 		gap: 10px;
-		position: relative;
+		max-width: 100%;
+		overflow: hidden;
 
 		li {
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;
 			margin-bottom: 10px;
+			max-width: 100%;
 		}
 	}
 
