@@ -122,7 +122,7 @@ main {
 		border: none;
 		border-radius: 50%;
 		background-color: rgba(0, 0, 0, 0);
-		padding: 0;
+		padding: 10px;
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -130,16 +130,75 @@ main {
 		font-size: 3rem;
 		text-align: center;
 
-		@keyframes rotateRight {
-			to {
-				transform: rotate(90deg);
-			}
+		&:hover {
+			background-color: lighten($c900, 10%);
+			cursor: pointer;
+			scale: 1.1;
 		}
+	}
+}
+
+.project-modal {
+	user-select: none;
+	position: fixed;
+	margin: auto;
+	color: $color;
+	background-color: $c900;
+	border-radius: .5rem;
+	border: none;
+	width: 320px;
+	height: 300px;
+
+	// display: flex; flex-direction: column; justify-content: space-between;
+
+	h2 {
+		margin: 0;
+	}
+
+	img {
+		align-self: end;
 
 		&:hover {
-			//background-color: lighten($c900, 10%);
 			cursor: pointer;
-			animation: rotateRight .5s;
 		}
+	}
+
+	form {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-around;
+		gap: 20px;
+
+		h2 {
+			margin: 0;
+		}
+
+		input {
+			border: none;
+			border-radius: .25rem;
+			background-color: $c800;
+			color: $color;
+			font-size: 20px;
+			padding: 20px;
+		}
+
+		button {
+			background-color: $c800;
+			border: none;
+			border-radius: .25rem;
+			color: $color;
+			font-weight: bold;
+			font-size: 20px;
+			padding: 20px;
+
+			&:hover {
+				background-color: $c700;
+				cursor: pointer;
+			}
+		}
+	}
+
+	&::backdrop {
+		backdrop-filter: blur(6px);
 	}
 }

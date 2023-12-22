@@ -11,5 +11,6 @@ const proj = handler.createProject('Foo');
 const whtvr = handler.createTask('Doo', 'Do whatever', false, '14/12/2023', 2, 'fdsfdsfds');
 
 const handlerDOM = new domHandler();
-handlerDOM.addProject('Foo');
-handlerDOM.addProject('Baa');
+handlerDOM.setListeners()
+// handlerDOM.addProject('Foo');
+// handlerDOM.addProject('Baa');
