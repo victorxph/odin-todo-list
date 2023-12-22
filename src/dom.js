@@ -9,36 +9,52 @@ export default class domHandler {
 
 	main = document.querySelector('main')
 
+	projectModal = document.querySelector('.project-modal');
 	closePjModal = document.querySelector('.close-dialog');
+	submitProjectBtn = document.querySelector('.add-pj-btn')
+	projectNameInput = document.querySelector('.pj-name-input');
 
-	setListeners() {
-		this.addProjectBtn.addEventListener('click', this.openProjectModal)
-		this.closePjModal.addEventListener('click', this.closeProjectModal)
+	setListeners(callCase) {
+		this.addProjectBtn.addEventListener('click', this.openProjectModal.bind(this))
+		this.closePjModal.addEventListener('click', this.closeProjectModal.bind(this))
+
+		if (callCase == 'openModal') {
+			this.submitProjectBtn.addEventListener('click', function() {
+				console.log(this.projectNameInput)
+				this.addProject(this.projectNameInput.value)
+			}.bind(this))
+		}
 	}
 
 	openProjectModal() {
-		const projectModal = document.querySelector('.project-modal');
-		projectModal.style.display = 'flex';
-		projectModal.style.flexDirection = 'column';
-		projectModal.style.justifyContent = 'space-between';
-		projectModal.showModal();
+		this.projectModal.style.display = 'flex';
+		this.projectModal.style.flexDirection = 'column';
+		this.projectModal.style.justifyContent = 'space-between';
+		this.projectModal.showModal();
 		this.closePjModal = document.querySelector('.close-dialog');
-		projectModal.addEventListener('keydown', function(e) {
+		this.projectModal.addEventListener('keydown', function(e) {
 			if (e.key == 'Escape' || e.keyCode == 27) {
-				projectModal.style.display = '';
-				projectModal.style.flexDirection = '';
-				projectModal.style.justifyContent = '';
-				projectModal.close()
+				this.projectModal.style.display = '';
+				this.projectModal.style.flexDirection = '';
+				this.projectModal.style.justifyContent = '';
+
+				this.projectModal.close()
+			} else if (e.key == 'Enter' && this.projectNameInput == '') {
+				this.projectModal.style.display = '';
+				this.projectModal.style.flexDirection = '';
+				this.projectModal.style.justifyContent = '';
+
+				this.projectModal.close()
 			}
-		})
+		}.bind(this))
+		this.setListeners('openModal')
 	}
 
 	closeProjectModal() {
-		const projectModal = document.querySelector('.project-modal');
-		projectModal.style.display = '';
-		projectModal.style.flexDirection = '';
-		projectModal.style.justifyContent = '';
-		projectModal.close()
+		this.projectModal.style.display = '';
+		this.projectModal.style.flexDirection = '';
+		this.projectModal.style.justifyContent = '';
+		this.projectModal.close()
 	}
 
 	addProject(name) {
@@ -67,6 +83,6 @@ export default class domHandler {
 				<button type="button"><img width="30" height="30"
 					src="https://img.icons8.com/material-rounded/512/d4d4d4/plus-math--v1.png"
 					alt="plus-math--v1" /></button>`
-		// this.main.appendChild(projectCard);
+		this.main.appendChild(projectCard);
 	}
 }
