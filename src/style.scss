@@ -11,7 +11,7 @@ body {
 	color: $color;
 	margin: 0px;
 	display: grid;
-	grid-template-rows: 70px 1fr;
+	grid-template-rows: 70px 1fr; //92vh;
 	grid-template-columns: 300px 1fr;
 }
 
@@ -83,8 +83,24 @@ main {
 	justify-content: center;
 }
 
+::-webkit-scrollbar {
+	width: 12px;
+	border-radius: .5rem;
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: $c700;
+	border-radius: .5rem;
+}
+
+::-webkit-scrollbar-track {
+	background-color: $c950;
+}
+
 main.project-focused {
 	display: flex;
+	flex: 0 0 auto;
+	max-height: 92.5vh;
 
 	.container {
 		background-color: $c900;
@@ -92,18 +108,34 @@ main.project-focused {
 		width: 100%;
 		height: 100%;
 		padding: 20px;
+		overflow-y: scroll;
+
+		&::-webkit-scrollbar-track {
+			background-color: $c950;
+			border-radius: 0 .5rem .5rem 0;
+		}
+
+		&::-webkit-scrollbar-thumb {
+			background-color: $c700;
+			border-radius: 1rem;
+		}
 
 		ul {
 			list-style: none;
 			padding: 0;
 
 			li {
-				background-color: $c800;
+				background-color: lighten($c900, 2.5%);
 				border-radius: .5rem;
 				padding: 10px;
 				display: grid;
 				grid-template-columns: 1fr 90px repeat(2, 40px);
 				font-size: 1.1rem;
+				margin-bottom: 15px;
+
+				&:hover {
+					background-color: $c800; //lighten($c800, 2%);
+				}
 
 				.task {
 					display: flex;
@@ -129,6 +161,11 @@ main.project-focused {
 					width: 1.5rem;
 					align-self: center;
 					justify-self: center;
+					cursor: pointer;
+
+					&:hover {
+						fill: white;
+					}
 				}
 			}
 		}
