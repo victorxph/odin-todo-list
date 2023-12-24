@@ -61,14 +61,15 @@ aside {
 	button {
 		color: $color;
 		font-size: 1.2rem;
+		font-weight: bold;
 		border: none;
 		border-radius: .5rem;
-		background-color: $c800;
+		background-color: $c900;
 		padding: 20px;
 		width: 100%;
 
 		&:hover {
-			background-color: $c700;
+			background-color: $c800;
 			cursor: pointer;
 		}
 	}
@@ -134,7 +135,7 @@ main.project-focused {
 				margin-bottom: 15px;
 
 				&:hover {
-					background-color: $c800; //lighten($c800, 2%);
+					background-color: $c800;
 				}
 
 				.task {
@@ -169,6 +170,29 @@ main.project-focused {
 				}
 			}
 		}
+
+		button {
+			position: absolute;
+			right: 60px;
+			bottom: 60px;
+			border: none;
+			border-radius: 50%;
+			background-color: rgba(0, 0, 0, 0);
+			padding: 10px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			color: $color;
+			font-size: 3rem;
+			text-align: center;
+			scale: 1.25;
+
+			&:hover {
+				background-color: $c800;
+				cursor: pointer;
+			}
+		}
+
 	}
 }
 
