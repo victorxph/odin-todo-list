@@ -83,11 +83,62 @@ main {
 	justify-content: center;
 }
 
+main.project-focused {
+	display: flex;
+
+	.container {
+		background-color: $c900;
+		border-radius: .5rem;
+		width: 100%;
+		height: 100%;
+		padding: 20px;
+
+		ul {
+			list-style: none;
+			padding: 0;
+
+			li {
+				background-color: $c800;
+				border-radius: .5rem;
+				padding: 10px;
+				display: grid;
+				grid-template-columns: 1fr 90px repeat(2, 40px);
+				font-size: 1.1rem;
+
+				.task {
+					display: flex;
+
+					label {
+						cursor: pointer;
+					}
+
+					input[type="checkbox"] {
+						width: 30px;
+						cursor: pointer;
+					}
+				}
+
+
+				.due-date {
+					align-self: center;
+					justify-self: center;
+				}
+
+				svg {
+					fill: $color;
+					width: 1.5rem;
+					align-self: center;
+					justify-self: center;
+				}
+			}
+		}
+	}
+}
+
 .project-card {
 	background-color: $c900;
 	border-radius: .5em;
 	padding: 15px;
-	// width: 320px;
 	height: 300px;
 	position: relative;
 
@@ -96,6 +147,11 @@ main {
 
 	h2 {
 		margin: 0;
+
+		&:hover {
+			cursor: pointer;
+			text-decoration: underline;
+		}
 	}
 
 
@@ -131,9 +187,8 @@ main {
 		text-align: center;
 
 		&:hover {
-			background-color: lighten($c900, 10%);
+			background-color: $c800;
 			cursor: pointer;
-			scale: 1.1;
 		}
 	}
 }
