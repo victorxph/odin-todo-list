@@ -1,5 +1,19 @@
 @import 'config';
 
+::-webkit-scrollbar {
+	width: 12px;
+	border-radius: .5rem;
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: $c700;
+	border-radius: .5rem;
+}
+
+::-webkit-scrollbar-track {
+	background-color: $c950;
+}
+
 * {
 	box-sizing: border-box;
 }
@@ -31,15 +45,17 @@ aside {
 	padding: 20px;
 
 	display: grid;
-	grid-template-rows: 50px 1fr 70px;
+	grid-template-rows: 80px 1fr 70px;
 
 	ul {
 		list-style: none;
 		padding: 0;
 	}
 
-	.main-todo {
-		align-self: center;
+	.home {
+		display: flex;
+		flex-direction: column;
+		gap: 15px;
 
 		span {
 			&:hover {
@@ -82,20 +98,6 @@ main {
 	grid-template-columns: repeat(auto-fit, 320px);
 	gap: 20px;
 	justify-content: center;
-}
-
-::-webkit-scrollbar {
-	width: 12px;
-	border-radius: .5rem;
-}
-
-::-webkit-scrollbar-thumb {
-	background-color: $c700;
-	border-radius: .5rem;
-}
-
-::-webkit-scrollbar-track {
-	background-color: $c950;
 }
 
 main.project-focused {
@@ -265,7 +267,9 @@ main.project-focused {
 	width: 320px;
 	height: 300px;
 
-	// display: flex; flex-direction: column; justify-content: space-between;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
 
 	h2 {
 		margin: 0;
@@ -317,4 +321,78 @@ main.project-focused {
 	&::backdrop {
 		backdrop-filter: blur(6px);
 	}
+}
+
+// .task-modal {
+// 	user-select: none;
+// 	// position: fixed;
+// 	// margin: auto;
+// 	color: $color;
+// 	background-color: $c900;
+// 	border-radius: .5rem;
+// 	border: none;
+// 	width: 320px;
+// 	height: 300px;
+
+// 	display: flex;
+// 	flex-direction: column;
+// 	justify-content: space-between;
+
+// 	h2 {
+// 		margin: 0;
+// 	}
+
+// 	img {
+// 		align-self: end;
+
+// 		&:hover {
+// 			cursor: pointer;
+// 		}
+// 	}
+
+// 	form {
+// 		display: flex;
+// 		flex-direction: column;
+// 		justify-content: space-around;
+// 		gap: 20px;
+
+// 		h2 {
+// 			margin: 0;
+// 		}
+
+// 		input {
+// 			border: none;
+// 			border-radius: .25rem;
+// 			background-color: $c800;
+// 			color: $color;
+// 			font-size: 20px;
+// 			padding: 20px;
+// 		}
+
+// 		button {
+// 			background-color: $c800;
+// 			border: none;
+// 			border-radius: .25rem;
+// 			color: $color;
+// 			font-weight: bold;
+// 			font-size: 20px;
+// 			padding: 20px;
+
+// 			&:hover {
+// 				background-color: $c700;
+// 				cursor: pointer;
+// 			}
+// 		}
+// 	}
+
+// 	&::backdrop {
+// 		backdrop-filter: blur(6px);
+// 	}
+// }
+
+.closed-modal {
+	display: none;
+	justify-content: normal;
+	flex-direction: row;
+	scale: 0;
 }

@@ -5,7 +5,6 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Todo List</title>
-
 </head>
 
 <body>
@@ -14,7 +13,8 @@
 	</nav>
 
 	<aside>
-		<div class="main-todo">
+		<div class="home">
+			<span>Home</span>
 			<span>To do</span>
 		</div>
 
@@ -91,7 +91,7 @@
 	<!-- 	</div> -->
 	<!-- </main> -->
 
-	<dialog class="project-modal">
+	<dialog class="project-modal closed-modal">
 		<img class="close-dialog" width="24" height="24"
 			src="https://img.icons8.com/material-rounded/24/ffffff/delete-sign.png" alt="delete-sign" />
 
@@ -103,6 +103,12 @@
 
 			<button class="add-pj-btn" type="button">Add project</button>
 		</form>
+	</dialog>
+
+	<dialog class="task-modal">
+		<img src="https://img.icons8.com/material-rounded/24/ffffff/delete-sign.png" alt="delete-sign"
+			class="close-dialog">
+		<h2>New task</h2>
 	</dialog>
 
 </body>

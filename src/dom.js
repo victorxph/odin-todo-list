@@ -1,4 +1,6 @@
 import Project from './project.js';
+import ProjectHandler from './handler.js';
+import { projectsHandler } from './index.js'
 
 export default class domHandler {
 
@@ -7,7 +9,9 @@ export default class domHandler {
 
 	addProjectBtn = document.querySelector('.add-project');
 
-	main = document.querySelector('main');
+	mainDiv = document.querySelector('main');
+
+	projectsDiv = document.querySelector('.projects');
 
 	projectModal = document.querySelector('.project-modal');
 	closePjModal = document.querySelector('.close-dialog');
@@ -15,6 +19,8 @@ export default class domHandler {
 	projectNameInput = document.querySelector('.pj-name-input');
 
 	addTaskBtns = Array.from(document.querySelectorAll('.add-task-btn'));
+
+	taskModal = document.querySelector('.task-modal');
 
 	capitalize(str) {
 		if (typeof str !== 'string' || str.length == 0) {
@@ -38,6 +44,12 @@ export default class domHandler {
 				this.addProject(this.projectNameInput.value)
 			}
 		}.bind(this))
+		this.addTaskBtns.forEach((button) => {
+			button.addEventListener('click', function() {
+				// console.log(this)
+				this.openTaskModal();
+			}.bind(this))
+		})
 
 		this.submitProjectBtn.addEventListener('click', function() {
 			console.log(this.projectNameInput)
@@ -46,33 +58,54 @@ export default class domHandler {
 	}
 
 	openProjectModal() {
-		this.projectModal.style.display = 'flex';
-		this.projectModal.style.flexDirection = 'column';
-		this.projectModal.style.justifyContent = 'space-between';
+		this.projectModal.classList.remove('closed-modal')
 		this.projectModal.showModal();
-		this.closePjModal = document.querySelector('.close-dialog');
 	}
 
 	closeProjectModal() {
-		this.projectModal.style.display = '';
-		this.projectModal.style.flexDirection = '';
-		this.projectModal.style.justifyContent = '';
+		this.projectModal.classList.add('closed-modal');
 		this.projectModal.close()
 	}
 
 	addProject(name) {
-		const project = new Project(name);
-		const projectCard = document.createElement('div');
-		projectCard.classList.add('project-card');
-		projectCard.innerHTML = `<h2 class="project-name">${this.capitalize(project.name)}</h2>
-					<ul class="card-task-list">
-					</ul>
-				<button class="add-task-btn" type="button"><img width="30" height="30"
-					src="https://img.icons8.com/material-rounded/512/d4d4d4/plus-math--v1.png"
-					alt="plus-math--v1" /></button>`
+		const project = projectsHandler.createProject(name);
+		console.log(projectsHandler.projects);
 		this.addTaskBtns = Array.from(document.querySelectorAll('.add-task-btn'));
-		this.main.appendChild(projectCard);
+		this.setListeners();
 		this.projectNameInput.value = '';
 		this.closeProjectModal();
 	}
+
+	renderProjects() {
+		projectsHandler.projects.forEach((project) => {
+			const projectCard = document.createElement('div');
+			// const taskList = document.querySelector('.card-task-list');
+
+			projectCard.classList.add('project-card');
+			projectCard.innerHTML = `<h2 class="project-name">${this.capitalize(project.name)}</h2>
+			<ul class="card-task-list">
+			</ul>
+			<button class="add-task-btn" type="button"><img width="30" height="30"
+				src="https://img.icons8.com/material-rounded/512/d4d4d4/plus-math--v1.png"
+				alt="plus-math--v1" />
+			</button>`
+			this.mainDiv.appendChild(projectCard);
+		});
+	}
+
+	openTaskModal() {
+		this.taskModal.classList.remove('closedModal')
+		this.taskModal.showModal();
+	}
+
+	closeTaskModal() {
+		this.taskModal.classList.add('closedModal');
+		this.taskModal.close()
+	}
+
+	focusHome() {
+		this.mainDiv.innerHTML = '';
+		projectsHandler.projects.forEach()
+	}
+
 }
