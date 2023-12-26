@@ -331,16 +331,16 @@ main.project-focused {
 	background-color: $c900;
 	border-radius: .5rem;
 	border: none;
-	width: 320px;
-	height: 300px;
+	width: 640px;
+	height: 600px;
 
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
 
-	h2 {
-		margin: 0;
-	}
+	// h2 {
+	// 	margin: 0;
+	// }
 
 	img {
 		align-self: end;
@@ -351,16 +351,53 @@ main.project-focused {
 	}
 
 	form {
-		display: flex;
+		display: grid;
+		grid-template-rows: 60px 20px 60px 1fr 60px;
+		grid-template-columns: repeat(2, 1fr);
 		flex-direction: column;
 		justify-content: space-around;
 		gap: 20px;
 
-		h2 {
-			margin: 0;
+		label {
+			margin-top: 10px;
 		}
 
 		input {
+			color-scheme: dark;
+			border: none;
+			border-radius: .25rem;
+			background-color: $c800;
+			color: $color;
+			font-size: 20px;
+			padding: 20px;
+
+			&.task-content {
+				grid-column: 1 / -1;
+			}
+
+			&.task-due-date {
+				grid-row: 3 / 4;
+			}
+		}
+
+		textarea {
+			resize: none;
+			grid-row: 4 / 5;
+			grid-column: 1/-1;
+			color-scheme: dark;
+			max-width: 100%;
+			min-width: 100%;
+			height: 20vh;
+			border: none;
+			border-radius: .25rem;
+			background-color: $c800;
+			color: $color;
+			font-size: 15px;
+			padding: 20px;
+		}
+
+		select {
+			color-scheme: dark;
 			border: none;
 			border-radius: .25rem;
 			background-color: $c800;
@@ -370,6 +407,8 @@ main.project-focused {
 		}
 
 		button {
+			grid-row: 5 / 6;
+			grid-column: 1 / -1;
 			background-color: $c800;
 			border: none;
 			border-radius: .25rem;

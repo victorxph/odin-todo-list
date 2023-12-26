@@ -30,12 +30,13 @@ export default class domHandler {
 
 	setListeners() {
 		this.addProjectBtn.addEventListener('click', this.openProjectModal.bind(this))
-		// this.closePjModal.addEventListener('click', this.closeProjectModal.bind(this))
+
 		this.closeModalBtn.forEach((button) => {
 			button.addEventListener('click', function(e) {
 				this.closeModal(e)
 			}.bind(this))
 		})
+
 		this.projectModal.addEventListener('keydown', function(e) {
 			if (e.key == 'Escape' || e.keyCode == 27) {
 				this.closeModal(e);
@@ -47,12 +48,18 @@ export default class domHandler {
 				this.addProject(this.projectNameInput.value)
 			}
 		}.bind(this))
+
 		this.addTaskBtns.forEach((button) => {
 			button.addEventListener('click', function() {
-				// console.log(this)
 				this.openTaskModal();
 			}.bind(this))
 		})
+
+		this.taskModal.addEventListener('keydown', function(e) {
+			if (e.key == 'Escape' || e.keyCode == 27) {
+				this.closeModal(e);
+			}
+		}.bind(this));
 
 		this.submitProjectBtn.addEventListener('click', function() {
 			console.log(this.projectNameInput)
@@ -68,10 +75,8 @@ export default class domHandler {
 	closeModal(e, modal) {
 		let dialog;
 		if (e.target) {
-			console.log(e)
 			dialog = e.target.closest('dialog')
 		} else {
-			console.log(e)
 			dialog = modal
 		}
 		dialog.classList.add('closed-modal');
