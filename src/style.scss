@@ -367,8 +367,8 @@ main.project-focused {
 			border: none;
 			border-radius: .25rem;
 			background-color: $c800;
-			color: $color;
 			font-size: 20px;
+			color: $color;
 			padding: 20px;
 
 			&.task-content {
@@ -376,6 +376,7 @@ main.project-focused {
 			}
 
 			&.task-due-date {
+				font-size: 15px;
 				grid-row: 3 / 4;
 			}
 		}
@@ -402,7 +403,7 @@ main.project-focused {
 			border-radius: .25rem;
 			background-color: $c800;
 			color: $color;
-			font-size: 20px;
+			font-size: 17.5px;
 			padding: 20px;
 		}
 
