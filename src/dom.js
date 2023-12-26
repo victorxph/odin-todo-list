@@ -1,5 +1,3 @@
-import Project from './project.js';
-import ProjectHandler from './handler.js';
 import { projectsHandler } from './index.js'
 
 export default class domHandler {
@@ -14,7 +12,7 @@ export default class domHandler {
 	projectsDiv = document.querySelector('.projects');
 
 	projectModal = document.querySelector('.project-modal');
-	closePjModal = document.querySelector('.close-dialog');
+	closeModalBtn = Array.from(document.querySelectorAll('.close-dialog'));
 	submitProjectBtn = document.querySelector('.add-pj-btn')
 	projectNameInput = document.querySelector('.pj-name-input');
 
@@ -32,13 +30,18 @@ export default class domHandler {
 
 	setListeners() {
 		this.addProjectBtn.addEventListener('click', this.openProjectModal.bind(this))
-		this.closePjModal.addEventListener('click', this.closeProjectModal.bind(this))
+		// this.closePjModal.addEventListener('click', this.closeProjectModal.bind(this))
+		this.closeModalBtn.forEach((button) => {
+			button.addEventListener('click', function(e) {
+				this.closeModal(e)
+			}.bind(this))
+		})
 		this.projectModal.addEventListener('keydown', function(e) {
 			if (e.key == 'Escape' || e.keyCode == 27) {
-				this.closeProjectModal();
+				this.closeModal(e);
 			} else if (!this.projectNameInput.value && (e.key == 'Enter' || e.keyCode == 13)) {
 				e.preventDefault();
-				this.closeProjectModal();
+				this.closeModal(e);
 			} else if (this.projectNameInput.value && (e.key == 'Enter' || e.keyCode == 13)) {
 				e.preventDefault();
 				this.addProject(this.projectNameInput.value)
@@ -62,9 +65,17 @@ export default class domHandler {
 		this.projectModal.showModal();
 	}
 
-	closeProjectModal() {
-		this.projectModal.classList.add('closed-modal');
-		this.projectModal.close()
+	closeModal(e, modal) {
+		let dialog;
+		if (e.target) {
+			console.log(e)
+			dialog = e.target.closest('dialog')
+		} else {
+			console.log(e)
+			dialog = modal
+		}
+		dialog.classList.add('closed-modal');
+		dialog.close()
 	}
 
 	addProject(name) {
@@ -73,7 +84,7 @@ export default class domHandler {
 		this.addTaskBtns = Array.from(document.querySelectorAll('.add-task-btn'));
 		this.setListeners();
 		this.projectNameInput.value = '';
-		this.closeProjectModal();
+		this.closeModal(false, this.projectModal);
 	}
 
 	renderProjects() {
@@ -94,13 +105,8 @@ export default class domHandler {
 	}
 
 	openTaskModal() {
-		this.taskModal.classList.remove('closedModal')
+		this.taskModal.classList.remove('closed-modal')
 		this.taskModal.showModal();
-	}
-
-	closeTaskModal() {
-		this.taskModal.classList.add('closedModal');
-		this.taskModal.close()
 	}
 
 	focusHome() {

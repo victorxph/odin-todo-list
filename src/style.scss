@@ -323,72 +323,72 @@ main.project-focused {
 	}
 }
 
-// .task-modal {
-// 	user-select: none;
-// 	// position: fixed;
-// 	// margin: auto;
-// 	color: $color;
-// 	background-color: $c900;
-// 	border-radius: .5rem;
-// 	border: none;
-// 	width: 320px;
-// 	height: 300px;
+.task-modal {
+	user-select: none;
+	position: fixed;
+	margin: auto;
+	color: $color;
+	background-color: $c900;
+	border-radius: .5rem;
+	border: none;
+	width: 320px;
+	height: 300px;
 
-// 	display: flex;
-// 	flex-direction: column;
-// 	justify-content: space-between;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
 
-// 	h2 {
-// 		margin: 0;
-// 	}
+	h2 {
+		margin: 0;
+	}
 
-// 	img {
-// 		align-self: end;
+	img {
+		align-self: end;
 
-// 		&:hover {
-// 			cursor: pointer;
-// 		}
-// 	}
+		&:hover {
+			cursor: pointer;
+		}
+	}
 
-// 	form {
-// 		display: flex;
-// 		flex-direction: column;
-// 		justify-content: space-around;
-// 		gap: 20px;
+	form {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-around;
+		gap: 20px;
 
-// 		h2 {
-// 			margin: 0;
-// 		}
+		h2 {
+			margin: 0;
+		}
 
-// 		input {
-// 			border: none;
-// 			border-radius: .25rem;
-// 			background-color: $c800;
-// 			color: $color;
-// 			font-size: 20px;
-// 			padding: 20px;
-// 		}
+		input {
+			border: none;
+			border-radius: .25rem;
+			background-color: $c800;
+			color: $color;
+			font-size: 20px;
+			padding: 20px;
+		}
 
-// 		button {
-// 			background-color: $c800;
-// 			border: none;
-// 			border-radius: .25rem;
-// 			color: $color;
-// 			font-weight: bold;
-// 			font-size: 20px;
-// 			padding: 20px;
+		button {
+			background-color: $c800;
+			border: none;
+			border-radius: .25rem;
+			color: $color;
+			font-weight: bold;
+			font-size: 20px;
+			padding: 20px;
 
-// 			&:hover {
-// 				background-color: $c700;
-// 				cursor: pointer;
-// 			}
-// 		}
-// 	}
+			&:hover {
+				background-color: $c700;
+				cursor: pointer;
+			}
+		}
+	}
 
-// 	&::backdrop {
-// 		backdrop-filter: blur(6px);
-// 	}
-// }
+	&::backdrop {
+		backdrop-filter: blur(6px);
+	}
+}
 
 .closed-modal {
 	display: none;
