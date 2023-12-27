@@ -2,14 +2,12 @@ import { projectsHandler } from './index.js'
 
 export default class domHandler {
 
-	projectDiv = document.querySelector('.projects');
+	projectsDiv = document.querySelector('.projects');
 	projectList = document.querySelector('.project-list');
 
 	addProjectBtn = document.querySelector('.add-project');
 
 	mainDiv = document.querySelector('main');
-
-	projectsDiv = document.querySelector('.projects');
 
 	projectModal = document.querySelector('.project-modal');
 	closeModalBtn = Array.from(document.querySelectorAll('.close-dialog'));
@@ -65,6 +63,10 @@ export default class domHandler {
 			console.log(this.projectNameInput)
 			this.addProject(this.projectNameInput.value)
 		}.bind(this))
+
+		projectsHandler.projects.forEach((project) => {
+			project.listItem.addEventListener('click', this.focusProject.bind(this, project))
+		})
 	}
 
 	openProjectModal() {
@@ -87,9 +89,11 @@ export default class domHandler {
 		const project = projectsHandler.createProject(name);
 		console.log(projectsHandler.projects);
 		this.addTaskBtns = Array.from(document.querySelectorAll('.add-task-btn'));
+		this.renderProjectsList();
 		this.setListeners();
 		this.projectNameInput.value = '';
 		this.closeModal(false, this.projectModal);
+		this.renderProjectsList();
 	}
 
 	renderProjects() {
@@ -109,6 +113,15 @@ export default class domHandler {
 		});
 	}
 
+	renderProjectsList() {
+		projectsHandler.projects.forEach((project) => {
+			const listItem = document.createElement('li');
+			listItem.innerHTML = `${project.name}`
+			project.listItem = listItem;
+			this.projectList.appendChild(listItem);
+		})
+	}
+
 	openTaskModal() {
 		this.taskModal.classList.remove('closed-modal')
 		this.taskModal.showModal();
@@ -117,6 +130,27 @@ export default class domHandler {
 	focusHome() {
 		this.mainDiv.innerHTML = '';
 		projectsHandler.projects.forEach()
+	}
+
+	focusProject(project) {
+		if (!this.mainDiv.classList.contains('project-focused')) {
+			this.mainDiv.classList.add('project-focused');
+		}
+		this.mainDiv.innerHTML = `
+		<div class="container">
+			<h1 class="project-title">${project.name}</h1>
+
+			<ul class="project-task-list">
+			</ul>
+
+			<button class="add-task-btn" type="button"><img width="30" height="30"
+					src="https://img.icons8.com/material-rounded/512/d4d4d4/plus-math--v1.png" alt="plus-math--v1" />
+			</button>
+		</div>`
+		project.tasks.forEach(task => {
+			const todoItem = document.createElement('li');
+			todoItem.innerHTML = ``
+		});
 	}
 
 }

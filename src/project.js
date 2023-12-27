@@ -4,4 +4,6 @@ export default class Project {
 	}
 
 	tasks = []
+
+	listItem
 }

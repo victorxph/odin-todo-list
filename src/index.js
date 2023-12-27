@@ -10,6 +10,8 @@ const proj = projectsHandler.createProject('Foo');
 const whtvr = projectsHandler.createTask('Doo', 'Do whatever', false, '14/12/2023', 2, 'fdsfdsfds');
 
 const handlerDOM = new domHandler();
-handlerDOM.setListeners()
+handlerDOM.renderProjectsList();
+handlerDOM.setListeners();
+
 
 export { projectsHandler };

@@ -7,4 +7,7 @@ export default class Task {
 		this.priority = priority;
 		this.notes = notes;
 	}
+
+	dom = {
+	}
 }
