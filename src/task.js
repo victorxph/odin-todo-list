@@ -9,5 +9,10 @@ export default class Task {
 	}
 
 	dom = {
+		check: null,
+		content: null,
+		dueDate: null,
+		edit: null,
+		trash: null,
 	}
 }

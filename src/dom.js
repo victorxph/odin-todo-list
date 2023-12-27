@@ -89,11 +89,20 @@ export default class domHandler {
 		const project = projectsHandler.createProject(name);
 		console.log(projectsHandler.projects);
 		this.addTaskBtns = Array.from(document.querySelectorAll('.add-task-btn'));
+		this.projectList.innerHTML = ''
 		this.renderProjectsList();
 		this.setListeners();
 		this.projectNameInput.value = '';
 		this.closeModal(false, this.projectModal);
-		this.renderProjectsList();
+	}
+
+	renderProjectsList() {
+		projectsHandler.projects.forEach((project) => {
+			const listItem = document.createElement('li');
+			listItem.innerHTML = `${this.capitalize(project.name)}`
+			project.listItem = listItem;
+			this.projectList.appendChild(listItem);
+		})
 	}
 
 	renderProjects() {
@@ -111,15 +120,6 @@ export default class domHandler {
 			</button>`
 			this.mainDiv.appendChild(projectCard);
 		});
-	}
-
-	renderProjectsList() {
-		projectsHandler.projects.forEach((project) => {
-			const listItem = document.createElement('li');
-			listItem.innerHTML = `${project.name}`
-			project.listItem = listItem;
-			this.projectList.appendChild(listItem);
-		})
 	}
 
 	openTaskModal() {
@@ -147,9 +147,27 @@ export default class domHandler {
 					src="https://img.icons8.com/material-rounded/512/d4d4d4/plus-math--v1.png" alt="plus-math--v1" />
 			</button>
 		</div>`
+
+		const taskList = document.querySelector('.project-task-list');
+
 		project.tasks.forEach(task => {
 			const todoItem = document.createElement('li');
-			todoItem.innerHTML = ``
+			taskList.appendChild(todoItem);
+			const taskDiv = document.createElement('div');
+			taskDiv.classList.add('task');
+			todoItem.appendChild(taskDiv);
+
+			const taskCheck = document.createElement('input');
+			task.dom.check = taskCheck;
+			taskCheck.setAttribute('type', 'checkbox');
+			taskCheck.setAttribute('name', 'task-check');
+			taskCheck.classList.add('task-check');
+			console.log(task.dom.check.checked)
+
+			const taskContent = document.createElement('label');
+			taskContent.setAttribute('for', 'task-check');
+			taskContent.classList.add('task-content');
+
 		});
 	}
 
