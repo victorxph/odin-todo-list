@@ -147,7 +147,10 @@ export default class domHandler {
 					src="https://img.icons8.com/material-rounded/512/d4d4d4/plus-math--v1.png" alt="plus-math--v1" />
 			</button>
 		</div>`
+		this.renderTasks(project);
+	}
 
+	renderTasks(project) {
 		const taskList = document.querySelector('.project-task-list');
 
 		project.tasks.forEach(task => {
@@ -162,12 +165,32 @@ export default class domHandler {
 			taskCheck.setAttribute('type', 'checkbox');
 			taskCheck.setAttribute('name', 'task-check');
 			taskCheck.classList.add('task-check');
-			console.log(task.dom.check.checked)
+			taskDiv.appendChild(taskCheck);
 
 			const taskContent = document.createElement('label');
 			taskContent.setAttribute('for', 'task-check');
 			taskContent.classList.add('task-content');
+			taskContent.innerText = task.content
+			task.dom.content = taskContent;
+			taskDiv.appendChild(taskContent);
 
+			const dueDate = document.createElement('span');
+			dueDate.classList.add('due-date');
+			dueDate.innerText = task.date
+			task.dom.dueDate = dueDate;
+			todoItem.appendChild(dueDate);
+
+			const editBtn = document.createElement('img');
+			editBtn.src = 'images/square-edit-outline.svg';
+			editBtn.setAttribute('alt', 'Edit task button');
+			task.dom.edit = editBtn;
+			todoItem.appendChild(editBtn);
+
+			const deleteBtn = document.createElement('img');
+			deleteBtn.src = 'images/delete.svg';
+			deleteBtn.setAttribute('alt', 'Edit task button');
+			task.dom.trash = deleteBtn;
+			todoItem.appendChild(deleteBtn);
 		});
 	}
 

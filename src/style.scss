@@ -159,15 +159,15 @@ main.project-focused {
 					justify-self: center;
 				}
 
-				svg {
-					fill: $color;
+				img {
 					width: 1.5rem;
+					min-height: 1.5rem;
 					align-self: center;
 					justify-self: center;
 					cursor: pointer;
 
 					&:hover {
-						fill: white;
+						filter: brightness(2)
 					}
 				}
 			}
