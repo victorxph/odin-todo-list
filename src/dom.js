@@ -2,6 +2,10 @@ import { projectsHandler } from './index.js'
 
 export default class domHandler {
 
+	focusedProject = null;
+
+	homeBtn = document.querySelector('.home-btn');
+
 	projectsDiv = document.querySelector('.projects');
 	projectList = document.querySelector('.project-list');
 
@@ -67,6 +71,16 @@ export default class domHandler {
 		projectsHandler.projects.forEach((project) => {
 			project.listItem.addEventListener('click', this.focusProject.bind(this, project))
 		})
+
+
+		if (this.mainDiv.classList.contains('project-focused') && this.focusedProject != null) {
+			// console.log(this.focusedProject.tasks)
+			this.focusedProject.tasks.forEach(task => {
+				task.dom.edit.addEventListener('click', () => {
+					console.log(task)
+				})
+			})
+		}
 	}
 
 	openProjectModal() {
@@ -133,6 +147,8 @@ export default class domHandler {
 	}
 
 	focusProject(project) {
+		this.focusedProject = project;
+
 		if (!this.mainDiv.classList.contains('project-focused')) {
 			this.mainDiv.classList.add('project-focused');
 		}
@@ -148,6 +164,7 @@ export default class domHandler {
 			</button>
 		</div>`
 		this.renderTasks(project);
+		this.setListeners();
 	}
 
 	renderTasks(project) {
