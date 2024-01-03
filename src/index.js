@@ -13,7 +13,7 @@ const task2 = projectsHandler.createTask('Foo', 'Do some', false, '24/11/2024', 
 
 const handlerDOM = new domHandler();
 handlerDOM.renderProjectsList();
+handlerDOM.focusHome();
 handlerDOM.setListeners();
-
 
 export { projectsHandler };

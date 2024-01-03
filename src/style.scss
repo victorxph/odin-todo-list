@@ -45,7 +45,7 @@ aside {
 	padding: 20px;
 
 	display: grid;
-	grid-template-rows: 80px 1fr 70px;
+	grid-template-rows: 50px 1fr 70px;
 
 	ul {
 		list-style: none;
@@ -56,8 +56,14 @@ aside {
 		display: flex;
 		flex-direction: column;
 		gap: 15px;
+		align-self: center;
+		font-weight: bold;
 
 		span {
+			display: flex;
+			align-items: center;
+			gap: 5px;
+
 			&:hover {
 				cursor: pointer;
 				color: #fff;
@@ -210,6 +216,7 @@ main.project-focused {
 
 	h2 {
 		margin: 0;
+		width: fit-content;
 
 		&:hover {
 			cursor: pointer;

@@ -1,6 +1,19 @@
 import { projectsHandler } from './index.js'
 
+class Page {
+	constructor(name) {
+		this.name = name;
+	}
+
+	eventListenerMap = new WeakMap();
+
+	showMap() {
+		console.log(this.eventListenerMap);
+	}
+}
+
 export default class domHandler {
+	mainPage = new Page('mainPage');
 
 	focusedProject = null;
 
@@ -28,6 +41,27 @@ export default class domHandler {
 		}
 
 		return str.charAt(0).toUpperCase() + str.slice(1)
+	}
+
+	addListener(element, type, listener, map) {
+		if (!map.has(element)) {
+			map.set(element, new Map());
+		}
+
+		if (!map.get(element).has(type)) {
+			element.addEventListener(type, listener);
+			map.get(element).set(type, listener);
+		}
+	}
+
+	removeListener(element, type, map) {
+		if (map.has(element)) {
+			const listener = map.get(element).get(type);
+			if (listener) {
+				element.removeEventListener(type, listener);
+				map.get(element).delete(type);
+			}
+		}
 	}
 
 	setListeners() {
@@ -69,12 +103,11 @@ export default class domHandler {
 		}.bind(this))
 
 		projectsHandler.projects.forEach((project) => {
-			project.listItem.addEventListener('click', this.focusProject.bind(this, project))
+			this.addListener(project.dom.listItem, 'click', this.focusProject.bind(this, project), this.mainPage.eventListenerMap)
+			// project.dom.listItem.addEventListener('click', this.focusProject.bind(this, project))
 		})
 
-
 		if (this.mainDiv.classList.contains('project-focused') && this.focusedProject != null) {
-			// console.log(this.focusedProject.tasks)
 			this.focusedProject.tasks.forEach(task => {
 				task.dom.edit.addEventListener('click', () => {
 					console.log(task)
@@ -114,36 +147,56 @@ export default class domHandler {
 		projectsHandler.projects.forEach((project) => {
 			const listItem = document.createElement('li');
 			listItem.innerHTML = `${this.capitalize(project.name)}`
-			project.listItem = listItem;
+			project.dom.listItem = listItem;
 			this.projectList.appendChild(listItem);
 		})
 	}
 
-	renderProjects() {
-		projectsHandler.projects.forEach((project) => {
-			const projectCard = document.createElement('div');
-			// const taskList = document.querySelector('.card-task-list');
+	focusHome() {
+		this.mainDiv.innerHTML = '';
+		this.renderProjectsCards();
+	}
 
+	renderProjectsCards() {
+		projectsHandler.projects.forEach((project) => {
+			const quoteless = project.name.replace(/["']/g, '');
+
+			const projectCard = document.createElement('div');
 			projectCard.classList.add('project-card');
-			projectCard.innerHTML = `<h2 class="project-name">${this.capitalize(project.name)}</h2>
-			<ul class="card-task-list">
-			</ul>
-			<button class="add-task-btn" type="button"><img width="30" height="30"
-				src="https://img.icons8.com/material-rounded/512/d4d4d4/plus-math--v1.png"
-				alt="plus-math--v1" />
-			</button>`
+			project.dom.card = projectCard;
+			this.mainDiv.appendChild(projectCard);
+
+			const projectTitle = document.createElement('h2');
+			projectTitle.classList.add('project-name');
+			projectTitle.textContent = `${quoteless}`
+			project.dom.title = projectTitle;
+			projectCard.appendChild(projectTitle);
+
+			const taskList = document.createElement('ul');
+			taskList.classList.add('card-task-list');
+			taskList.id = project.name;
+			project.dom.taskList = taskList;
+			projectCard.appendChild(taskList);
+
+			const addTaskBtn = document.createElement('button');
+			addTaskBtn.classList.add('add-task-btn');
+			addTaskBtn.type = 'button';
+			addTaskBtn.innerHTML = `<img width="30" height="30"
+			src = "https://img.icons8.com/material-rounded/512/d4d4d4/plus-math--v1.png"
+			alt = "plus-math--v1" />`
+			projectCard.appendChild(addTaskBtn);
+
 			this.mainDiv.appendChild(projectCard);
 		});
+	}
+
+	renderTaskList(project) {
+
 	}
 
 	openTaskModal() {
 		this.taskModal.classList.remove('closed-modal')
 		this.taskModal.showModal();
-	}
-
-	focusHome() {
-		this.mainDiv.innerHTML = '';
-		projectsHandler.projects.forEach()
 	}
 
 	focusProject(project) {
@@ -153,7 +206,7 @@ export default class domHandler {
 			this.mainDiv.classList.add('project-focused');
 		}
 		this.mainDiv.innerHTML = `
-		<div class="container">
+				< div class= "container" >
 			<h1 class="project-title">${project.name}</h1>
 
 			<ul class="project-task-list">
@@ -162,7 +215,7 @@ export default class domHandler {
 			<button class="add-task-btn" type="button"><img width="30" height="30"
 					src="https://img.icons8.com/material-rounded/512/d4d4d4/plus-math--v1.png" alt="plus-math--v1" />
 			</button>
-		</div>`
+		</div > `
 		this.renderTasks(project);
 		this.setListeners();
 	}

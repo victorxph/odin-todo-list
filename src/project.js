@@ -5,5 +5,11 @@ export default class Project {
 
 	tasks = []
 
-	listItem
+	dom = {
+		listItem: null,
+		card: null,
+		title: null,
+		taskList: null,
+		addTaskBtn: null,
+	}
 }
