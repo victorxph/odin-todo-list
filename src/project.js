@@ -11,5 +11,11 @@ export default class Project {
 		title: null,
 		taskList: null,
 		addTaskBtn: null,
+		card: {
+			container: null,
+			title: null,
+			tasks: [],
+			addTaskBtn: null,
+		}
 	}
 }

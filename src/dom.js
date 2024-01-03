@@ -65,6 +65,8 @@ export default class domHandler {
 	}
 
 	setListeners() {
+		this.homeBtn.addEventListener('click', this.focusHome.bind(this))
+
 		this.addProjectBtn.addEventListener('click', this.openProjectModal.bind(this))
 
 		this.closeModalBtn.forEach((button) => {
@@ -153,6 +155,7 @@ export default class domHandler {
 	}
 
 	focusHome() {
+		this.mainDiv.classList.remove('project-focused')
 		this.mainDiv.innerHTML = '';
 		this.renderProjectsCards();
 	}
@@ -163,7 +166,7 @@ export default class domHandler {
 
 			const projectCard = document.createElement('div');
 			projectCard.classList.add('project-card');
-			project.dom.card = projectCard;
+			project.dom.card.container = projectCard;
 			this.mainDiv.appendChild(projectCard);
 
 			const projectTitle = document.createElement('h2');
@@ -187,11 +190,36 @@ export default class domHandler {
 			projectCard.appendChild(addTaskBtn);
 
 			this.mainDiv.appendChild(projectCard);
+			this.renderTaskList(project, taskList);
 		});
 	}
 
-	renderTaskList(project) {
+	renderTaskList(passedProject, listElement) {
+		projectsHandler.projects.forEach(project => {
+			if (passedProject.name == project.name) {
+				project.tasks.forEach((task, index) => {
+					const taskLi = document.createElement('li');
+					listElement.appendChild(taskLi);
+					project.dom.card.tasks.push(taskLi);
+					console.log(project.dom.card.tasks)
 
+					const taskCheck = document.createElement('input');
+					taskCheck.type = 'checkbox';
+					taskCheck.name = 'task-check';
+					const checkId = 'check' + index;
+					taskCheck.id = checkId;
+					taskLi.appendChild(taskCheck);
+					task.dom.card.checkbox = taskCheck;
+
+					const taskLabel = document.createElement('label');
+					taskLabel.classList.add('task-content');
+					taskLabel.textContent = task.content;
+					taskLabel.setAttribute('for', `${checkId}`);
+					taskLi.appendChild(taskLabel);
+					task.dom.card.span = taskLabel;
+				})
+			}
+		})
 	}
 
 	openTaskModal() {
@@ -205,17 +233,16 @@ export default class domHandler {
 		if (!this.mainDiv.classList.contains('project-focused')) {
 			this.mainDiv.classList.add('project-focused');
 		}
-		this.mainDiv.innerHTML = `
-				< div class= "container" >
+		this.mainDiv.innerHTML = `<div class= "container">
 			<h1 class="project-title">${project.name}</h1>
 
 			<ul class="project-task-list">
 			</ul>
 
 			<button class="add-task-btn" type="button"><img width="30" height="30"
-					src="https://img.icons8.com/material-rounded/512/d4d4d4/plus-math--v1.png" alt="plus-math--v1" />
+				src="https://img.icons8.com/material-rounded/512/d4d4d4/plus-math--v1.png" alt="plus-math--v1" />
 			</button>
-		</div > `
+		</div >`
 		this.renderTasks(project);
 		this.setListeners();
 	}
@@ -263,5 +290,4 @@ export default class domHandler {
 			todoItem.appendChild(deleteBtn);
 		});
 	}
-
 }

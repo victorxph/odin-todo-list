@@ -14,5 +14,9 @@ export default class Task {
 		dueDate: null,
 		edit: null,
 		trash: null,
+		card: {
+			checkbox: null,
+			span: null,
+		}
 	}
 }
