@@ -35,6 +35,8 @@ export default class domHandler {
 
 	taskModal = document.querySelector('.task-modal');
 
+	projectsDropdown = document.querySelector('.task-project');
+
 	capitalize(str) {
 		if (typeof str !== 'string' || str.length == 0) {
 			throw new Error("Invalid value for capitalization.")
@@ -81,15 +83,15 @@ export default class domHandler {
 			return;
 
 			case 'focusProject':
-				this.focusedProject.tasks.forEach(task => {
-					// this.addListener(task.dom.check)
-					// this.addListener(task.dom.edit)
-					// this.addListener(task.dom.trash)
-					console.log(task)
-				})
+				// this.focusedProject.tasks.forEach(task => {
+				// 	// this.addListener(task.dom.check)
+				// 	// this.addListener(task.dom.edit)
+				// 	// this.addListener(task.dom.trash)
+				// 	console.log(task)
+				// })
 
-				console.log(this.focusedProject)
-				// this.addListener()
+				// console.log(this.focusedProject)
+				this.addListener(this.focusedProject.dom.addTaskBtn, 'click', this.openTaskModal.bind(this, this.focusedProject), this.mainPage.eventListenerMap)
 			return
 		}
 		console.log('well well well')
@@ -249,7 +251,15 @@ export default class domHandler {
 		})
 	}
 
-	openTaskModal() {
+	openTaskModal(project) {
+		projectsHandler.projects.forEach(project => {
+			const option = document.createElement('option');
+			option.value = project.name;
+			option.textContent = project.name; 
+			this.projectsDropdown.appendChild(option);
+		})
+		console.log(project)
+		this.projectsDropdown.value = project;
 		this.taskModal.classList.remove('closed-modal')
 		this.taskModal.showModal();
 	}
@@ -265,15 +275,18 @@ export default class domHandler {
 
 		const container = document.createElement('div');
 		container.classList.add('container');
+		project.dom.container = container;
 		this.mainDiv.appendChild(container);
 
 		const projectTitle = document.createElement('h1');
 		projectTitle.classList.add('project-title');
 		projectTitle.textContent = project.name;
 		container.appendChild(projectTitle);
+		project.dom.title = projectTitle;
 
 		const taskList = document.createElement('ul');
 		taskList.classList.add('project-task-list');
+		project.dom.taskList = taskList;
 		container.appendChild(taskList);
 
 		const addTaskBtn = document.createElement('button');
@@ -281,17 +294,8 @@ export default class domHandler {
 		addTaskBtn.type = 'button';
 		addTaskBtn.innerHTML =`<img width="30" height="30" src="https://img.icons8.com/material-rounded/512/d4d4d4/plus-math--v1.png" alt="plus-math--v1" />`
 		container.appendChild(addTaskBtn);
+		project.dom.addTaskBtn = addTaskBtn;
 		
-		// this.mainDiv.innerHTML = `<div class= "container">
-		// 	<h1 class="project-title">${project.name}</h1>
-
-		// 	<ul class="project-task-list">
-		// 	</ul>
-
-		// 	<button class="add-task-btn" type="button"><img width="30" height="30"
-		// 		src="https://img.icons8.com/material-rounded/512/d4d4d4/plus-math--v1.png" alt="plus-math--v1" />
-		// 	</button>
-		// </div >`
 		this.renderTasks(project);
 		this.setListeners('focusProject');
 	}
@@ -304,6 +308,7 @@ export default class domHandler {
 			taskList.appendChild(todoItem);
 			const taskDiv = document.createElement('div');
 			taskDiv.classList.add('task');
+			project.dom.tasks.push(todoItem);
 			todoItem.appendChild(taskDiv);
 
 			const taskCheck = document.createElement('input');

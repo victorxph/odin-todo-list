@@ -97,16 +97,20 @@
 	</dialog>
 
 	<dialog class="task-modal closed-modal">
-		<img src=" https://img.icons8.com/material-rounded/24/ffffff/delete-sign.png" alt="delete-sign"
-			class="close-dialog">
-		<h2>New task</h2>
+		<div class="wrapper">
+			<h2>New task</h2>
+			<img src=" https://img.icons8.com/material-rounded/24/ffffff/delete-sign.png" alt="delete-sign"
+				class="close-dialog">
+		</div>
 
 		<form action="/placeholder" method="dialog">
 			<input type="text" class="task-content" placeholder="Task">
-			<label for="task_due_date">Due Date:</label>
-			<input type="datetime-local" name="task_due_date" class="task-due-date">
-			<label for="task_priority">Priority:</label>
-			<select name="task_priority" class="task-priority">
+			<label for="task-project">Project:</label>
+			<select name="task_project" id="task-project" class="task-project">
+			</select>
+			<input type="datetime-local" name="task_due_date" id="task-due-date" class="task-due-date">
+			<label for="task-priority">Priority:</label>
+			<select name="task_priority" id="task-priority" class="task-priority">
 				<option value="low">Low</option>
 				<option value="medium">Medium</option>
 				<option value="high">High</option>

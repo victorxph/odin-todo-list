@@ -7,8 +7,8 @@ export default class Project {
 
 	dom = {
 		listItem: null,
-		card: null,
 		title: null,
+		tasks: [],
 		taskList: null,
 		addTaskBtn: null,
 		card: {
