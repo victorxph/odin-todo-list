@@ -12,8 +12,8 @@ const task3 = projectsHandler.createTask('Foo', 'Do this', true, '02/03/2024', 1
 const task2 = projectsHandler.createTask('Foo', 'Do some', false, '24/11/2024', 1, 'somesomesome');
 
 const handlerDOM = new domHandler();
-handlerDOM.renderProjectsList();
 handlerDOM.focusHome();
+handlerDOM.renderProjectsList();
 handlerDOM.setListeners();
 
 export { projectsHandler };

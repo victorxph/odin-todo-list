@@ -64,7 +64,22 @@ export default class domHandler {
 		}
 	}
 
-	setListeners() {
+	setListeners(callCase) {
+		switch (callCase) {
+			case 'renderProjectsCards':
+				projectsHandler.projects.forEach((project, index) => {
+					// console.log(project, index)
+					this.addListener(project.dom.card.addTaskBtn, 'click', this.openTaskModal.bind(this), this.mainPage.eventListenerMap)
+				})
+			return;
+			case 'renderProjectsList':
+				projectsHandler.projects.forEach((project) => {
+					this.addListener(project.dom.listItem, 'click', this.focusProject.bind(this, project), this.mainPage.eventListenerMap)
+					// project.dom.listItem.addEventListener('click', this.focusProject.bind(this, project))
+				})
+			return;
+		}
+		console.log('well well well')
 		this.homeBtn.addEventListener('click', this.focusHome.bind(this))
 
 		this.addProjectBtn.addEventListener('click', this.openProjectModal.bind(this))
@@ -103,11 +118,6 @@ export default class domHandler {
 			console.log(this.projectNameInput)
 			this.addProject(this.projectNameInput.value)
 		}.bind(this))
-
-		projectsHandler.projects.forEach((project) => {
-			this.addListener(project.dom.listItem, 'click', this.focusProject.bind(this, project), this.mainPage.eventListenerMap)
-			// project.dom.listItem.addEventListener('click', this.focusProject.bind(this, project))
-		})
 
 		if (this.mainDiv.classList.contains('project-focused') && this.focusedProject != null) {
 			this.focusedProject.tasks.forEach(task => {
@@ -152,6 +162,7 @@ export default class domHandler {
 			project.dom.listItem = listItem;
 			this.projectList.appendChild(listItem);
 		})
+		this.setListeners('renderProjectsList')
 	}
 
 	focusHome() {
@@ -187,11 +198,13 @@ export default class domHandler {
 			addTaskBtn.innerHTML = `<img width="30" height="30"
 			src = "https://img.icons8.com/material-rounded/512/d4d4d4/plus-math--v1.png"
 			alt = "plus-math--v1" />`
+			project.dom.card.addTaskBtn = addTaskBtn;
 			projectCard.appendChild(addTaskBtn);
 
 			this.mainDiv.appendChild(projectCard);
 			this.renderTaskList(project, taskList);
 		});
+		this.setListeners('renderProjectsCards')
 	}
 
 	renderTaskList(passedProject, listElement) {
@@ -201,7 +214,6 @@ export default class domHandler {
 					const taskLi = document.createElement('li');
 					listElement.appendChild(taskLi);
 					project.dom.card.tasks.push(taskLi);
-					console.log(project.dom.card.tasks)
 
 					const taskCheck = document.createElement('input');
 					taskCheck.type = 'checkbox';
