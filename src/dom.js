@@ -71,14 +71,13 @@ export default class domHandler {
 			case 'renderProjectsCards':
 				projectsHandler.projects.forEach((project, index) => {
 					// console.log(project, index)
-					this.addListener(project.dom.card.addTaskBtn, 'click', this.openTaskModal.bind(this), this.mainPage.eventListenerMap)
+					this.addListener(project.dom.card.addTaskBtn, 'click', this.openTaskModal.bind(this, project), this.mainPage.eventListenerMap)
 				})
 			return;
 
 			case 'renderProjectsList':
 				projectsHandler.projects.forEach((project) => {
 					this.addListener(project.dom.listItem, 'click', this.focusProject.bind(this, project), this.mainPage.eventListenerMap)
-					// project.dom.listItem.addEventListener('click', this.focusProject.bind(this, project))
 				})
 			return;
 
@@ -90,7 +89,7 @@ export default class domHandler {
 				// 	console.log(task)
 				// })
 
-				// console.log(this.focusedProject)
+				console.log(this.focusedProject)
 				this.addListener(this.focusedProject.dom.addTaskBtn, 'click', this.openTaskModal.bind(this, this.focusedProject), this.mainPage.eventListenerMap)
 			return
 		}
@@ -252,6 +251,7 @@ export default class domHandler {
 	}
 
 	openTaskModal(project) {
+		this.projectsDropdown.innerHTML = '';
 		projectsHandler.projects.forEach(project => {
 			const option = document.createElement('option');
 			option.value = project.name;
@@ -259,7 +259,7 @@ export default class domHandler {
 			this.projectsDropdown.appendChild(option);
 		})
 		console.log(project)
-		this.projectsDropdown.value = project;
+		this.projectsDropdown.value = project.name;
 		this.taskModal.classList.remove('closed-modal')
 		this.taskModal.showModal();
 	}
