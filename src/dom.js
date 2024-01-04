@@ -72,12 +72,25 @@ export default class domHandler {
 					this.addListener(project.dom.card.addTaskBtn, 'click', this.openTaskModal.bind(this), this.mainPage.eventListenerMap)
 				})
 			return;
+
 			case 'renderProjectsList':
 				projectsHandler.projects.forEach((project) => {
 					this.addListener(project.dom.listItem, 'click', this.focusProject.bind(this, project), this.mainPage.eventListenerMap)
 					// project.dom.listItem.addEventListener('click', this.focusProject.bind(this, project))
 				})
 			return;
+
+			case 'focusProject':
+				this.focusedProject.tasks.forEach(task => {
+					// this.addListener(task.dom.check)
+					// this.addListener(task.dom.edit)
+					// this.addListener(task.dom.trash)
+					console.log(task)
+				})
+
+				console.log(this.focusedProject)
+				// this.addListener()
+			return
 		}
 		console.log('well well well')
 		this.homeBtn.addEventListener('click', this.focusHome.bind(this))
@@ -102,6 +115,7 @@ export default class domHandler {
 			}
 		}.bind(this))
 
+		//remove
 		this.addTaskBtns.forEach((button) => {
 			button.addEventListener('click', function() {
 				this.openTaskModal();
@@ -119,6 +133,7 @@ export default class domHandler {
 			this.addProject(this.projectNameInput.value)
 		}.bind(this))
 
+		//remove
 		if (this.mainDiv.classList.contains('project-focused') && this.focusedProject != null) {
 			this.focusedProject.tasks.forEach(task => {
 				task.dom.edit.addEventListener('click', () => {
@@ -245,18 +260,40 @@ export default class domHandler {
 		if (!this.mainDiv.classList.contains('project-focused')) {
 			this.mainDiv.classList.add('project-focused');
 		}
-		this.mainDiv.innerHTML = `<div class= "container">
-			<h1 class="project-title">${project.name}</h1>
 
-			<ul class="project-task-list">
-			</ul>
+		this.mainDiv.innerHTML = '';
 
-			<button class="add-task-btn" type="button"><img width="30" height="30"
-				src="https://img.icons8.com/material-rounded/512/d4d4d4/plus-math--v1.png" alt="plus-math--v1" />
-			</button>
-		</div >`
+		const container = document.createElement('div');
+		container.classList.add('container');
+		this.mainDiv.appendChild(container);
+
+		const projectTitle = document.createElement('h1');
+		projectTitle.classList.add('project-title');
+		projectTitle.textContent = project.name;
+		container.appendChild(projectTitle);
+
+		const taskList = document.createElement('ul');
+		taskList.classList.add('project-task-list');
+		container.appendChild(taskList);
+
+		const addTaskBtn = document.createElement('button');
+		addTaskBtn.classList.add('add-task-btn');
+		addTaskBtn.type = 'button';
+		addTaskBtn.innerHTML =`<img width="30" height="30" src="https://img.icons8.com/material-rounded/512/d4d4d4/plus-math--v1.png" alt="plus-math--v1" />`
+		container.appendChild(addTaskBtn);
+		
+		// this.mainDiv.innerHTML = `<div class= "container">
+		// 	<h1 class="project-title">${project.name}</h1>
+
+		// 	<ul class="project-task-list">
+		// 	</ul>
+
+		// 	<button class="add-task-btn" type="button"><img width="30" height="30"
+		// 		src="https://img.icons8.com/material-rounded/512/d4d4d4/plus-math--v1.png" alt="plus-math--v1" />
+		// 	</button>
+		// </div >`
 		this.renderTasks(project);
-		this.setListeners();
+		this.setListeners('focusProject');
 	}
 
 	renderTasks(project) {
