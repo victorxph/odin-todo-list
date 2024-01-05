@@ -104,19 +104,19 @@
 		</div>
 
 		<form action="/placeholder" method="dialog">
-			<input type="text" class="task-content" placeholder="Task">
-			<label for="task-project">Project:</label>
-			<select name="task_project" id="task-project" class="task-project">
+			<input type="text" class="task-content-input" placeholder="Task">
+			<label for="task-project-input">Project:</label>
+			<select name="task_project_input" id="task-project-input" class="task-project-input">
 			</select>
-			<input type="datetime-local" name="task_due_date" id="task-due-date" class="task-due-date">
-			<label for="task-priority">Priority:</label>
-			<select name="task_priority" id="task-priority" class="task-priority">
+			<label for="task-priority-input">Priority:</label>
+			<select name="task_priority_input" id="task-priority-input" class="task-priority-input">
 				<option value="low">Low</option>
 				<option value="medium">Medium</option>
 				<option value="high">High</option>
 			</select>
-			<textarea class="task-notes" placeholder="Notes"></textarea>
-			<button class="add-task-btn">Add task</button>
+			<input type="datetime-local" name="task_due_date_input" id="task-due-date-input" class="task-due-date-input">
+			<textarea class="task-notes-input" placeholder="Notes"></textarea>
+			<button class="submit-task-btn">Add task</button>
 		</form>
 	</dialog>
 

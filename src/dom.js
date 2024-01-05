@@ -35,7 +35,15 @@ export default class domHandler {
 
 	taskModal = document.querySelector('.task-modal');
 
-	projectsDropdown = document.querySelector('.task-project');
+	submitTaskButton = document.querySelector('.submit-task-btn');
+	taskInputs = {
+		content: document.querySelector('.task-content-input'),
+		project: document.querySelector('.task-project-input'),
+		check: false,
+		priority: document.querySelector('.task-priority-input'),
+		date: document.querySelector('.task-due-date-input'),
+		notes: document.querySelector('.task-notes-input'),
+	}
 
 	capitalize(str) {
 		if (typeof str !== 'string' || str.length == 0) {
@@ -92,8 +100,17 @@ export default class domHandler {
 				console.log(this.focusedProject)
 				this.addListener(this.focusedProject.dom.addTaskBtn, 'click', this.openTaskModal.bind(this, this.focusedProject), this.mainPage.eventListenerMap)
 			return
+
+			case 'addProject':
+				projectsHandler.projects.forEach((project, index) => {
+					// console.log(project, index)
+					this.addListener(project.dom.card.addTaskBtn, 'click', this.openTaskModal.bind(this, project), this.mainPage.eventListenerMap)
+				})
+			return
 		}
+
 		console.log('well well well')
+
 		this.homeBtn.addEventListener('click', this.focusHome.bind(this))
 
 		this.addProjectBtn.addEventListener('click', this.openProjectModal.bind(this))
@@ -116,12 +133,9 @@ export default class domHandler {
 			}
 		}.bind(this))
 
-		//remove
-		this.addTaskBtns.forEach((button) => {
-			button.addEventListener('click', function() {
-				this.openTaskModal();
-			}.bind(this))
-		})
+		this.submitProjectBtn.addEventListener('click', function() {
+			this.addProject(this.projectNameInput.value)
+		}.bind(this))
 
 		this.taskModal.addEventListener('keydown', function(e) {
 			if (e.key == 'Escape' || e.keyCode == 27) {
@@ -129,10 +143,9 @@ export default class domHandler {
 			}
 		}.bind(this));
 
-		this.submitProjectBtn.addEventListener('click', function() {
-			console.log(this.projectNameInput)
-			this.addProject(this.projectNameInput.value)
-		}.bind(this))
+		this.submitTaskButton.addEventListener('click', () => {
+			this.addTask(this.taskInputs.project, this.taskInputs.content)//this.taskInputs.content, this.taskInputs.check, this.taskInputs.date, this.taskInputs.priority, this.taskInputs.notes)
+		})
 
 		//remove
 		if (this.mainDiv.classList.contains('project-focused') && this.focusedProject != null) {
@@ -166,7 +179,8 @@ export default class domHandler {
 		this.addTaskBtns = Array.from(document.querySelectorAll('.add-task-btn'));
 		this.projectList.innerHTML = ''
 		this.renderProjectsList();
-		this.setListeners();
+		this.renderProjectsCards();
+		this.setListeners('addProject');
 		this.projectNameInput.value = '';
 		this.closeModal(false, this.projectModal);
 	}
@@ -188,6 +202,7 @@ export default class domHandler {
 	}
 
 	renderProjectsCards() {
+		this.mainDiv.innerHTML = '';
 		projectsHandler.projects.forEach((project) => {
 			const quoteless = project.name.replace(/["']/g, '');
 
@@ -251,14 +266,14 @@ export default class domHandler {
 	}
 
 	openTaskModal(project) {
-		this.projectsDropdown.innerHTML = '';
+		this.taskInputs.project.innerHTML = '';
 		projectsHandler.projects.forEach(project => {
 			const option = document.createElement('option');
 			option.value = project.name;
 			option.textContent = project.name; 
 			this.projectsDropdown.appendChild(option);
 		})
-		console.log(project)
+		console.log('btn from -', project.name)
 		this.projectsDropdown.value = project.name;
 		this.taskModal.classList.remove('closed-modal')
 		this.taskModal.showModal();
@@ -298,6 +313,13 @@ export default class domHandler {
 		
 		this.renderTasks(project);
 		this.setListeners('focusProject');
+	}
+
+	addTask(project, content){//, completed, date, priority, notes){
+		console.log(content)
+		// const task = projectsHandler.createTask(project, content, completed, date, priority, notes)
+		// console.log(task, project)
+		// projectsHandler.pushTask(task, project);
 	}
 
 	renderTasks(project) {

@@ -381,11 +381,11 @@ main.project-focused {
 			color: $color;
 			padding: 20px;
 
-			&.task-content {
+			&.task-content-input {
 				grid-column: 1 / -1;
 			}
 
-			&.task-due-date {
+			&.task-due-date-input {
 				font-size: 15px;
 				grid-row: 4 / 5;
 				grid-column: 1/-1;
@@ -420,12 +420,12 @@ main.project-focused {
 			font-size: 17.5px;
 			padding: 20px;
 
-			&.task-project{
+			&.task-project-input {
 				grid-row: 3 / 4;
 				grid-column: 1 / 2;
 			}
 
-			&.task-priority{
+			&.task-priority-input {
 				grid-row: 3 / 4;
 				grid-column: 2 / -1;
 			}
