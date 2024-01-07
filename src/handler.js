@@ -13,26 +13,41 @@ export default class ProjectHandler {
 		return project
 	}
 
-	matchProject(task) {
+	matchProject(input) {
 		let matchedProject = null;
-		this.projects.forEach((project) => {
-			if (task.project == project.name) {
+
+		if(input.project){
+			const task = input;
+			this.projects.forEach((project) => {
+				if (task.project == project.name) {
+					matchedProject = project
+				}
+			})
+		}
+		
+		this.projects.forEach(project =>{
+			if (input == project.name){
 				matchedProject = project
 			}
 		})
 
+		if(!matchedProject){
+			matchedProject = this.projects[0]
+		}
+
 		return matchedProject
 	}
 
-	createTask(project, content, completed, date, priority, notes) {
-		const task = new Task(project, content, completed, date, priority, notes);
+	createTask(projectName, content, check, date, priority, notes) {
+		const task = new Task(projectName, content, check, date, priority, notes);
 		// const project = this.matchProject(task)
-		project ? this.pushTask(task, project) : this.pushTask(task, this.projects[0])
-
+		
 		return task
 	}
 
-	pushTask(task, project) {
+	pushTask(task, projectName) {
+		let project = this.matchProject(projectName);
+
 		project.tasks.push(task)
 	}
 

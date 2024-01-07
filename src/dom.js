@@ -144,7 +144,7 @@ export default class domHandler {
 		}.bind(this));
 
 		this.submitTaskButton.addEventListener('click', () => {
-			this.addTask(this.taskInputs.project, this.taskInputs.content)//this.taskInputs.content, this.taskInputs.check, this.taskInputs.date, this.taskInputs.priority, this.taskInputs.notes)
+			this.addTask(this.taskInputs.project, this.taskInputs.content, this.taskInputs.check, this.taskInputs.date, this.taskInputs.priority, this.taskInputs.notes)
 		})
 
 		//remove
@@ -155,6 +155,15 @@ export default class domHandler {
 				})
 			})
 		}
+	}
+
+	addTask(project, content, check, date, priority, notes){
+		console.log(project.value, content.value, check, date.value, priority.value, notes.value)
+		const task = projectsHandler.createTask(project.value, content.value, check, date.value, priority.value, notes.value)
+		projectsHandler.pushTask(task, project.value);
+		const proj = projectsHandler.matchProject(project.value)
+		console.log(proj, proj.dom.card.taskList)
+		this.renderTaskList(proj, proj.dom.card.taskList)
 	}
 
 	openProjectModal() {
@@ -220,7 +229,7 @@ export default class domHandler {
 			const taskList = document.createElement('ul');
 			taskList.classList.add('card-task-list');
 			taskList.id = project.name;
-			project.dom.taskList = taskList;
+			project.dom.card.taskList = taskList;
 			projectCard.appendChild(taskList);
 
 			const addTaskBtn = document.createElement('button');
@@ -241,6 +250,8 @@ export default class domHandler {
 	renderTaskList(passedProject, listElement) {
 		projectsHandler.projects.forEach(project => {
 			if (passedProject.name == project.name) {
+				listElement.innerHTML = ''
+				console.log(project.tasks)
 				project.tasks.forEach((task, index) => {
 					const taskLi = document.createElement('li');
 					listElement.appendChild(taskLi);
@@ -271,10 +282,10 @@ export default class domHandler {
 			const option = document.createElement('option');
 			option.value = project.name;
 			option.textContent = project.name; 
-			this.projectsDropdown.appendChild(option);
+			this.taskInputs.project.appendChild(option);
 		})
-		console.log('btn from -', project.name)
-		this.projectsDropdown.value = project.name;
+		// console.log('btn from -', project.name)
+		this.taskInputs.project.value = project.name;
 		this.taskModal.classList.remove('closed-modal')
 		this.taskModal.showModal();
 	}
@@ -313,13 +324,6 @@ export default class domHandler {
 		
 		this.renderTasks(project);
 		this.setListeners('focusProject');
-	}
-
-	addTask(project, content){//, completed, date, priority, notes){
-		console.log(content)
-		// const task = projectsHandler.createTask(project, content, completed, date, priority, notes)
-		// console.log(task, project)
-		// projectsHandler.pushTask(task, project);
 	}
 
 	renderTasks(project) {
