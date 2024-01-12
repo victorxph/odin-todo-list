@@ -93,7 +93,7 @@ export default class domHandler {
 		switch (callCase) {
 			case 'renderProjectsCards':
 				projectsHandler.projects.forEach((project, index) => {
-					// console.log(project, index)
+					this.addListener(project.dom.title, 'click', this.focusProject.bind(this, project), this.mainPage.eventListenerMap)
 					this.addListener(project.dom.card.addTaskBtn, 'click', this.openTaskModal.bind(this, project), this.mainPage.eventListenerMap)
 				})
 			return;
@@ -105,19 +105,11 @@ export default class domHandler {
 			return;
 
 			case 'focusProject':
-				// this.focusedProject.tasks.forEach(task => {
-				// 	// this.addListener(task.dom.check)
-				// 	// this.addListener(task.dom.edit)
-				// 	// this.addListener(task.dom.trash)
-				// 	console.log(task)
-				// })
-
 				this.addListener(this.focusedProject.dom.addTaskBtn, 'click', this.openTaskModal.bind(this, this.focusedProject), this.mainPage.eventListenerMap)
 			return
 
 			case 'addProject':
 				projectsHandler.projects.forEach((project, index) => {
-					// console.log(project, index)
 					this.addListener(project.dom.card.addTaskBtn, 'click', this.openTaskModal.bind(this, project), this.mainPage.eventListenerMap)
 				})
 			return
@@ -160,28 +152,41 @@ export default class domHandler {
 		this.submitTaskButton.addEventListener('click', () => {
 			this.addTask(this.taskInputs.project, this.taskInputs.content, this.taskInputs.check, this.taskInputs.date, this.taskInputs.priority, this.taskInputs.notes)
 		})
-
-		//remove
-		if (this.mainDiv.classList.contains('project-focused') && this.focusedProject != null) {
-			this.focusedProject.tasks.forEach(task => {
-				task.dom.edit.addEventListener('click', () => {
-					console.log(task)
-				})
-			})
-		}
 	}
 
 	addTask(project, content, check, date, priority, notes){
+		if(!this.requireTaskContent()){
+			this.closeModal(null, this.taskModal)
+			return;
+		}
+		
 		console.log(project.value, content.value, check, date.value, priority.value, notes.value)
 		const task = projectsHandler.createTask(project.value, content.value, check, date.value, priority.value, notes.value)
-		projectsHandler.pushTask(task, project.value);
 		const proj = projectsHandler.matchProject(project.value)
-		console.log(proj, proj.dom.card.taskListj)
+		projectsHandler.pushTask(task, project.value);
 		if (this.mainDiv.classList.contains('project-focused')){
 			this.renderTasks(proj)
 		}
 		this.renderTaskList(proj, proj.dom.card.taskList)
+		this.cleanTaskInputs()
 		this.closeModal(null, this.taskModal)
+	}
+
+	requireTaskContent(){
+		if (this.taskInputs.content.value == ''){
+			alert('Task content is required.')
+			return false
+		}
+		return true
+	}
+
+	cleanTaskInputs(){
+		this.taskInputs.project.value = '';
+		this.taskInputs.content.value = '';
+		this.taskInputs.check = false;
+		this.taskInputs.date.value = '';
+		this.taskInputs.priority.value = 'low';
+		this.taskInputs.notes.value = '';
 	}
 
 	openProjectModal() {
@@ -190,7 +195,7 @@ export default class domHandler {
 	}
 
 	closeModal(e, modal) {
-		let dialog = e.target ? e.target.closest('dialog') : modal;
+		let dialog = e ? e.target.closest('dialog') : modal;
 
 		if(dialog === this.taskModal){
 			this.taskInputs.date.value = ''
@@ -364,7 +369,7 @@ export default class domHandler {
 			const taskContent = document.createElement('label');
 			taskContent.setAttribute('for', 'task-check');
 			taskContent.classList.add('task-content');
-			taskContent.innerText = task.content
+			taskContent.innerText = this.capitalize(task.content);
 			task.dom.content = taskContent;
 			taskDiv.appendChild(taskContent);
 
