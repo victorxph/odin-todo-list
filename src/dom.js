@@ -53,6 +53,21 @@ export default class domHandler {
 		return str.charAt(0).toUpperCase() + str.slice(1)
 	}
 
+	formatDate(date, format){
+		const splittedDate = date.split('-')
+		let formatedDate;
+		switch (format) {
+			case 'dd/mm/yyyy':
+			formatedDate = `${splittedDate[2]}/${splittedDate[1]}/${splittedDate[0]}`
+			break;
+
+			case 'mm/dd/yyyy':
+			formatedDate = `${splittedDate[1]}/${splittedDate[2]}/${splittedDate[0]}`
+			break;
+		}
+		return formatedDate; 
+	}
+
 	addListener(element, type, listener, map) {
 		if (!map.has(element)) {
 			map.set(element, new Map());
@@ -97,7 +112,6 @@ export default class domHandler {
 				// 	console.log(task)
 				// })
 
-				console.log(this.focusedProject)
 				this.addListener(this.focusedProject.dom.addTaskBtn, 'click', this.openTaskModal.bind(this, this.focusedProject), this.mainPage.eventListenerMap)
 			return
 
@@ -162,8 +176,12 @@ export default class domHandler {
 		const task = projectsHandler.createTask(project.value, content.value, check, date.value, priority.value, notes.value)
 		projectsHandler.pushTask(task, project.value);
 		const proj = projectsHandler.matchProject(project.value)
-		console.log(proj, proj.dom.card.taskList)
+		console.log(proj, proj.dom.card.taskListj)
+		if (this.mainDiv.classList.contains('project-focused')){
+			this.renderTasks(proj)
+		}
 		this.renderTaskList(proj, proj.dom.card.taskList)
+		this.closeModal(null, this.taskModal)
 	}
 
 	openProjectModal() {
@@ -172,12 +190,12 @@ export default class domHandler {
 	}
 
 	closeModal(e, modal) {
-		let dialog;
-		if (e.target) {
-			dialog = e.target.closest('dialog')
-		} else {
-			dialog = modal
+		let dialog = e.target ? e.target.closest('dialog') : modal;
+
+		if(dialog === this.taskModal){
+			this.taskInputs.date.value = ''
 		}
+
 		dialog.classList.add('closed-modal');
 		dialog.close()
 	}
@@ -251,7 +269,6 @@ export default class domHandler {
 		projectsHandler.projects.forEach(project => {
 			if (passedProject.name == project.name) {
 				listElement.innerHTML = ''
-				console.log(project.tasks)
 				project.tasks.forEach((task, index) => {
 					const taskLi = document.createElement('li');
 					listElement.appendChild(taskLi);
@@ -353,7 +370,7 @@ export default class domHandler {
 
 			const dueDate = document.createElement('span');
 			dueDate.classList.add('due-date');
-			dueDate.innerText = task.date
+			dueDate.innerText = this.formatDate(task.date, 'dd/mm/yyyy') 
 			task.dom.dueDate = dueDate;
 			todoItem.appendChild(dueDate);
 
